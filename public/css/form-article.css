@@ -14,7 +14,7 @@
     margin: 1rem 0;
 }
 
-.form-control label {
+.form-control label{
     margin-bottom: 1rem;
 }
 
@@ -22,11 +22,15 @@
     border: var(--border);
     border-radius: 3px;
     padding: 1rem 1.5rem;
-}
+    
 
+}
+ 
 .form-control select {
     border: var(--border);
     padding: 1rem 1.5rem;
+    
+
 }
 
 .form-control textarea {
@@ -34,9 +38,27 @@
     padding: 1rem 1.5rem;
     min-height: 20rem;
 }
+.form-control textarea:focus {
+    box-shadow: 0 0 5px var(--primary);
+    outline: none;
+
+}
+.form-control input:focus {
+    box-shadow: 0 0 5px var(--primary);
+    outline: none;
+
+}
+.form-control select:focus {
+    box-shadow: 0 0 5px var(--primary);
+    outline: none;
+
+}
+
+
 
 .form-actions {
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-end;
 }
+

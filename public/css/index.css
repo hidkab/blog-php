@@ -14,12 +14,14 @@
 }
 
 .article:hover .img-container {
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
 
 .newsfeed-content h2 {
   font-size: 1.9rem;
   padding: 0 1rem;
+  text-transform: uppercase;
+  text-align: center;
 }
 
 .article h3 {
@@ -31,6 +33,17 @@
   height: 30rem;
   background-size: cover;
   transition: transform 1s;
+}
+.article-author{
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-end;
+  padding-right: 2rem;
+}
+.article-author p {
+  font-size: 1rem;
+  font-weight: 700;
+  font-style: italic;
 }
 
 .newsfeed-container {
@@ -52,6 +65,7 @@
 }
 
 .cat-active {
-  color: var(--primary);
+  color: var(--primary-dark);
   font-weight: 700;
 }
+

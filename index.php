@@ -1,9 +1,9 @@
 <?php
-// $pdo = require_once './database.php';
+require_once __DIR__ . '/database/database.php';
+$authDB = require_once __DIR__ . '/database/security.php';
+$currentUser = $authDB->isLoggedin();
+
 $articleDB = require_once __DIR__ . '/database/model/articleDB.php';
-// $statement = $pdo->prepare('SELECT * FROM article');
-// $statement->execute();
-// $articles = $statement->fetchAll();
 $articles = $articleDB->fetchAll();
 $categories = [];
 
@@ -39,7 +39,7 @@ if (count($articles)) {
 <head>
     <?php require_once 'includes/head.php' ?>
     <link rel="stylesheet" href="/public/css/index.css">
-    <title>Blog</title>
+    <title>HidoucheBlog</title>
 </head>
 
 <body>
@@ -50,7 +50,7 @@ if (count($articles)) {
                 <ul class="category-container">
                     <li class=<?= $selectedCat ? '' : 'cat-active' ?>><a href="/">Tous les articles <span class="small">(<?= count($articles) ?>)</span></a></li>
                     <?php foreach ($categories as $catName => $catNum) : ?>
-                        <li class=<?= $selectedCat ===  $catName ? 'cat-active' : '' ?>><a href="/?cat=<?= $catName ?>"> <?= $catName ?><span class="small">(<?= $catNum ?>)</span> </a></li>
+                        <li class=<?= $selectedCat ===  $catName ? 'cat-active' : '' ?>><a href="/?cat=<?= $catName ?>"> <?= strtoupper($catName) ?><span class="small">(<?= $catNum ?>)</span> </a></li>
                     <?php endforeach; ?>
                 </ul>
                 <div class="newsfeed-content">
@@ -64,6 +64,11 @@ if (count($articles)) {
                                             <div class="img-container" style="background-image:url(<?= $a['image'] ?>"></div>
                                         </div>
                                         <h3><?= $a['title'] ?></h3>
+                                        <?php if ($a['author']) : ?>
+                                            <div class="article-author">
+                                                <p><?= $a['firstname'] . ' ' . $a['lastname']  ?></p>
+                                            </div>
+                                        <?php endif; ?>
                                     </a>
                                 <?php endforeach; ?>
                             </div>
@@ -77,6 +82,7 @@ if (count($articles)) {
                                         <div class="img-container" style="background-image:url(<?= $a['image'] ?>"></div>
                                     </div>
                                     <h3><?= $a['title'] ?></h3>
+                                    
                                 </a>
                             <?php endforeach; ?>
                         </div>

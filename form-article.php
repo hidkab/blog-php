@@ -1,33 +1,12 @@
 <?php
-// $pdo = require_once './database.php';
+require_once __DIR__ . '/database/database.php'; 
+$authDB = require_once __DIR__ . '/database/security.php';
+
+$currentUser = $authDB->isLoggedin();
+if (!$currentUser) {
+    header('Location: /');
+}
 $articleDB = require_once __DIR__ . '/database/model/articleDB.php';
-// $statementReadOne = $pdo->prepare('SELECT * FROM article WHERE id = :id');
-
-// $statementCreateOne = $pdo->prepare('INSERT INTO 
-//     article (
-//       title,
-//       category,
-//       content,
-//       image
-//     ) 
-//     VALUES (
-//       :title,
-//       :category,
-//       :content,
-//       :image
-//     )
-// ');
-
-// $statementUpdateOne = $pdo->prepare('UPDATE article 
-//     SET
-//         title= :title,
-//         category= :category,
-//         content= :content,
-//         image= :image
-//     WHERE 
-//         id = :id;
-// ');
-
 const ERROR_REQUIRED = 'Veuillez renseigner ce champ';
 const ERROR_TITLE_TOO_SHORT = 'Le titre est trop court';
 const ERROR_CONTENT_TOO_SHORT = 'L\'article est trop court';
@@ -40,13 +19,10 @@ $errors = [
 ];
 $category = '';
 
-
 $_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $id = $_GET['id'] ?? '';
 if ($id) {
-    // $statementReadOne->bindValue(':id', $id);
-    // $statementReadOne->execute();
-    // $article = $statementReadOne->fetch();
+
     $article = $articleDB->fetchOne($id);
     $title = $article['title'];
     $image = $article['image'];
@@ -94,37 +70,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty(array_filter($errors, fn ($e) => $e !== ''))) {
         if ($id) {
-            // $statementUpdateOne->bindValue(':title', $title);
-            // $statementUpdateOne->bindValue(':image', $image);
-            // $statementUpdateOne->bindValue(':category', $category);
-            // $statementUpdateOne->bindValue(':content', $content);
-            // $statementUpdateOne->bindValue(':id', $id);
-            // $statementUpdateOne->execute();
             $article['title'] = $title;
             $article['category'] = $category;
             $article['content'] = $content;
             $article['image'] = $image;
+            $currentUser['author'] = $currentUser['id'];
             $article = $articleDB->updateOne($article);
         } else {
-            // $statementCreateOne->bindValue(':title', $title);
-            // $statementCreateOne->bindValue(':image', $image);
-            // $statementCreateOne->bindValue(':category', $category);
-            // $statementCreateOne->bindValue(':content', $content);
-            // $statementCreateOne->execute();
-            
             $articleDB->createOne([
                 'title' => $title,
                 'content' => $content,
                 'category' => $category,
-                'image' => $image
+                'image' => $image,
+                'author' => $currentUser['id']
               ]);
         }
         header('Location: /');
     }
 }
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -162,6 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <option <?= !$category || $category === 'technologie' ? 'selected' : '' ?> value="technologie">Technologie</option>
                             <option <?= $category === 'nature' ? 'selected' : '' ?> value="nature">Nature</option>
                             <option <?= $category === 'politique' ? 'selected' : '' ?> value="politique">Politique</option>
+                            <option <?= $category === 'sport' ? 'selected' : '' ?> value="sport">Sport</option>
                         </select>
                         <?php if ($errors['category']) : ?>
                             <p class="text-danger"><?= $errors['category'] ?></p>
@@ -175,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endif; ?>
                     </div>
                     <div class="form-actions">
-                        <a href="/" class="btn btn-secondary" type="button">Annuler</a>
+                        <a href="/" class="btn btn-danger" type="button">Annuler</a>
                         <button class="btn btn-primary" type="submit"><?= $id ? 'Modifier' : 'Sauvegarder' ?></button>
                     </div>
                 </form>
