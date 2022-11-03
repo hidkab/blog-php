@@ -227,7 +227,8 @@ footer div .portfofio:hover, footer .social-networks-icons ul i:hover, footer .c
 /* content  */
 
 .content {
-    max-width: 100rem;
+    max-width: 120rem;
+    /* max-width: 100rem; */
     width: 100%;
     flex:1;
     display: flex;

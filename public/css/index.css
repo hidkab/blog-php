@@ -11,10 +11,18 @@
   min-height: 41rem;
   min-width: 25rem;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .article:hover .img-container {
   transform: scale(1.2);
+} 
+
+.img-container {
+  height: 30rem;
+  background-size: cover;
+  transition: transform 1s;
+  border: var(--border);
 }
 
 .newsfeed-content h2 {
@@ -25,15 +33,12 @@
 }
 
 .article h3 {
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   padding: 1rem 1.5rem;
+  max-height: 5rem;
+  overflow: hidden;
 }
 
-.img-container {
-  height: 30rem;
-  background-size: cover;
-  transition: transform 1s;
-}
 .article-author{
   display: flex;
   flex-flow: row;
@@ -52,7 +57,11 @@
 }
 
 .category-container {
-  flex: 200px;
+  flex: 20rem;
+  /* border: 1px solid red; */
+  /* position: sticky; */
+  /* top:0; */
+
 }
 
 .category-container li {

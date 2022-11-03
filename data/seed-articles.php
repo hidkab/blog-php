@@ -27,4 +27,4 @@ foreach ($articles as $article) {
       $statement->bindValue(':image', $article['image']);
       $statement->execute();
     }
-
+ 
