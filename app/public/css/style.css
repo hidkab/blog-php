@@ -344,6 +344,12 @@ footer div .portfofio:hover, footer .social-networks-icons ul i:hover, footer .c
     .content {
         padding: 1rem;
     }
+    footer {
+        flex-direction: column;
+    }
+    footer .contact ul{
+        align-items: center;
+    }
 }
 
 
